@@ -2,9 +2,9 @@ import dbConnect from "@/lib/dbConnect";
 import { sendVerificationEmail } from "@/helper/sendVerificationEmail";
 import bcrypt from "bcryptjs";
 import UserModel from "@/models/User.model";
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 
-export async function POST(request: NextRequest ) {
+export async function POST(request: Request ) {
   try {
     await dbConnect();
 
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest ) {
     });
 
     if (existingUserVerifiedByUserName) {
-      return NextResponse.json(
+      return Response.json(
         { succes: false, message: "UserNama is already taken" },
         { status: 400 }
       );
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest ) {
 
     if (existingUserVerifyByEmail) {
       if (existingUserVerifyByEmail.isVerify) {
-        return NextResponse.json({succes: false, message: "User is exist with this email"}, {status: 400})
+        return Response.json({succes: false, message: "User is exist with this email"}, {status: 400})
       } else {
         const hashPassword = await bcrypt.hash(password, 10);
         existingUserVerifyByEmail.password = hashPassword;
@@ -58,15 +58,17 @@ export async function POST(request: NextRequest ) {
       verifyCode
     );
     if (!emailResponse.success) {
-        return NextResponse.json({ succes: false, message: emailResponse.message }, {status: 500})
+      console.log("error", emailResponse.message)
+        return Response.json({ succes: false, message: emailResponse.message }, {status: 500})
     }
-    return NextResponse.json({ succes: true, message:"user Succesfully sign-up" }, {status: 200})
+    console.log({emailResponse})
+    return Response.json({ succes: true, message:"user Succesfully sign-up", emailResponse }, {status: 200})
     
 
   } catch (error) {
     const message = error as string;
     console.log(`SomeThing Went Wrong User Signup Error ${message}`);
-    return NextResponse.json(
+    return Response.json(
       { success: false, message: "User Signup Error" },
       { status: 500 }
     );
