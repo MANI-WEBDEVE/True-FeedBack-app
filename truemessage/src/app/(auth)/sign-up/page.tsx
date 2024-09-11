@@ -18,7 +18,7 @@ import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 
 
-const SignIn = () => {
+const Signup = () => {
   const { toast } = useToast()
   const [userName, setUserName] = useState<string>('');
   const [userNameMessage, setUserNameMessage] = useState<string>('');
@@ -188,4 +188,4 @@ const SignIn = () => {
 }
 
 
-export default SignIn
+export default Signup
