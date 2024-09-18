@@ -58,7 +58,7 @@ export default function MessageCard({message , onMessageDelete}: MessageCardProp
     };
 
   return (
-    <Card>-
+    <Card>
       <CardHeader>
         <CardTitle>Card Title</CardTitle>
         <AlertDialog>
