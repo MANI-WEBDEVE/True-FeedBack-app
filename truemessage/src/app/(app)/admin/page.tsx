@@ -1,16 +1,3 @@
-import React from 'react'
-
-const page = () => {
-  return (
-    <div>
-      inam
-    </div>
-  )
-}
-
-export default page
-
-/*
 'use client'
  import MessageCard from '@/components/MessafeCard';
  import { Button } from '@/components/ui/button';
@@ -36,13 +23,14 @@ export default page
 
   
    const handleDeleteMessage = (messageId: string) => {
-    Filter the messages in state to remove the message with the matching id
+    // Filter the messages in state to remove the message with the matching id
    const newMessages = messages.filter((messages) => messages._id !== messageId);
-    Set the new list of messages back into state
+    // Set the new list of messages back into state
    setMessages(newMessages);
  };
 
  const {data: session} = useSession();
+//  console.log("inma",useSession())
 
  const form = useForm({
    resolver: zodResolver(AcceptMessageSchema),
@@ -54,7 +42,7 @@ export default page
  const fetchAcceptMessage = useCallback(async ( ) => {
      setIsSwitch(true);
      try {
-       const response = await axios.get<ApiResponse>('/api/acceptMessages');
+       const response = await axios.get<ApiResponse>('/api/accept-messages');
        setValue("acceptMessages", response.data.isAcceptingMessages)
      } catch (error) {
        const axiosError = error as AxiosError<ApiResponse>
@@ -67,7 +55,7 @@ export default page
        setIsSwitch(false)
      }
 
- }, [setValue])
+ }, [setValue,toast])
 
  const fetchMessages = useCallback(async (refresh : boolean = false) => {
    setIsLoading(true);
@@ -121,10 +109,24 @@ export default page
  }
 
   // username extract 
+//  console.log(session?.user)
+ const user  = session?.user as User;
 
- const { username  } = session?.user as User;
+
+//  if (!session || !session.user) {
+//    return <>
+//    <h1 className='h-full text-5xl flex items-center justify-center font-bold text-purple-500'>Please Login First</h1>
+//    </>
+//  }
+ if (user === undefined) {
+  return <>
+    <div>user Loading</div>
+  </>
+ }
+
+ 
  const baseUrl = window.location.origin;
- const profileUrl = `${baseUrl}/u/${ username }`
+ const profileUrl = `${baseUrl}/u/${ user.username }`
 
   // handle Clipboard
  const handleClipBoard = () => {
@@ -133,12 +135,6 @@ export default page
      title: "URL copied",
      description: "Url has been copy"
    })
- }
-
- if (!session || !session.user) {
-   return <>
-   <h1 className='h-full text-5xl flex items-center justify-center font-bold text-purple-500'>Please Login First</h1>
-   </>
  }
 
  return ( 
@@ -191,6 +187,3 @@ export default page
 }
 
 export default page
-
-
-*/

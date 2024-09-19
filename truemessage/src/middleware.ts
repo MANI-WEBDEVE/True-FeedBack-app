@@ -10,7 +10,7 @@ export const config = {
     "/sign-in",
     "/sign-up",
     "/verify",
-    "/dashboard:path*",
+    "/admin:path*",
   ],
 };
 export async function middleware(request: NextRequest) {
@@ -24,10 +24,10 @@ export async function middleware(request: NextRequest) {
       url.pathname.startsWith("/verify") ||
       url.pathname.startsWith("/"))
   ) {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/admin", request.url));
   }
   
-  if (!token && url.pathname.startsWith('/dashboard')) {
+  if (!token && url.pathname.startsWith('/admin')) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
   }
 
@@ -36,3 +36,4 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 
+ 

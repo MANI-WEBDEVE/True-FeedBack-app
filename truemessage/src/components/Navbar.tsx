@@ -10,8 +10,8 @@ function Navbar() {
   const user: User = session?.user as User;
 
   return (
-    <header className=" flex justify-center items-center ml-3 ">
-      <nav className="w-full p-6 backdrop-blur-sm bg-gray-200 flex justify-between  items-center gap-  md:p-4 mt-4 mr-6 rounded-full shadow-2xl">
+    <header className=" flex justify-center items-center ml-3 bg-gray-100 ">
+      <nav className="w-full bg-gray-200 p-6 backdrop-blur-2xl  flex justify-between  items-center gap-  md:p-4 mt-4 mr-6 rounded-full shadow-2xl">
         <Link href="#">
           <h1 className="text-3xl  hover:scale-110 duration-500 transition-all  hover:font-bold">
             <span className="text-purple-600">True</span>Message
