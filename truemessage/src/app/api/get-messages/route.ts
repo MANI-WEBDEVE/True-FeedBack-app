@@ -9,6 +9,7 @@ export async function GET(request: Request) {
   await dbConnect();
   const session = await getServerSession(authOption);
   const user: User = session?.user as User;
+  console.log(user)
 
   if (!session || !session.user) {
     return Response.json(
@@ -18,9 +19,10 @@ export async function GET(request: Request) {
   }
 
   const userId = new mongoose.Types.ObjectId(user._id);
-
+  console.log(userId)
   try {
     const foundUser = await UserModel.findById(userId);
+    console.log(foundUser)
     if (!foundUser) {
       return Response.json(
         { success: false, message: "User not found" },
@@ -28,14 +30,16 @@ export async function GET(request: Request) {
       );
     }
     const user = await UserModel.aggregate([
-      { $match: { id: userId } },
-      { $unwind: "$messages" },
-      { $sort: { "messages.createdAt": -1 } },
-      { $group: { _id: "$_id", messages: { $push: "$messages" } } },
-    ]);
+      { $match: { _id: userId } },
+      { $unwind: '$messages' },
+      { $sort: { 'messages.createdAt': -1 } },
+      { $group: { _id: '$_id', messages: { $push: '$messages' } } },
+    ]).exec();
+
+    console.log("Muhammad",user)
     if (!user || user.length === 0) {
       return Response.json(
-        { success: false, message: "No Messages Found" },
+        { success: false, message: "User Not found 🥴" },
         { status: 404 }
       );
     }

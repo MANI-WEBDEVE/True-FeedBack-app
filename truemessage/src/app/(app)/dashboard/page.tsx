@@ -61,6 +61,7 @@ function Page() {
       setIsLoading(true);
       try {
         const response = await axios.get<ApiResponse>('/api/get-messages');
+        console.log(response.data)
         setMessages(response.data.messages || []);
         if (refresh) {
           toast({
@@ -78,7 +79,7 @@ function Page() {
         setIsLoading(false);
       }
     },
-    []
+    [toast]
   );
 
   // Handle the switch change
@@ -161,8 +162,8 @@ function Page() {
 
   // Return the actual page content
   return (
-    <div className="my8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-      <h1 className="text-4xl font-bold mb-4">User Page</h1>
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-gray-100 rounded w-full max-w-6xl h-full">
+      <h1 className="text-4xl font-bold mb-4"><span className='text-purple-600'>User</span> Dashboard</h1>
 
       {/* Unique Link Copy Section */}
       <div className="mb-4">
@@ -179,7 +180,7 @@ function Page() {
       </div>
 
       {/* Accept Messages Switch */}
-      <div className="mb-4">
+      <div className="mb-6">
         <Switch
           {...register('acceptMessages')}
           checked={acceptMessages}
