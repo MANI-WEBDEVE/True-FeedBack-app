@@ -42,7 +42,7 @@ const SignIn = () => {
       identifier: data.identifier,
       password: data.password,
     });
-
+    console.log(result)
     if (result?.error) {
       if (result.error === 'CredentialsSignin') {
         toast({
@@ -60,7 +60,7 @@ const SignIn = () => {
     }
 
     if (result?.url) {
-      router.replace('/admin');
+      router.push('/dashboard');
     }
   };
 
