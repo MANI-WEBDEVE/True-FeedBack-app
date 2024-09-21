@@ -10,9 +10,6 @@ import autoplay from "embla-carousel-autoplay"
 import messages from "@/messages.json"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import fade from "embla-carousel-fade"
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 
 function page() {
   

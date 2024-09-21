@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
 
@@ -27,7 +27,8 @@ const ProfilePage = () => {
       }
     } catch (error) {
       console.log(error);
-      toast({ title: "Error fetching user acceptance", description: error});
+      const axiosErro = error as AxiosError<ApiResponse>;
+      toast({ title: "Error fetching user acceptance", description: axiosErro.response?.data.message });
     }
   };
 
