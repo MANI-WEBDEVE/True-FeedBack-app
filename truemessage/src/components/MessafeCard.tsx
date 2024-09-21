@@ -31,6 +31,7 @@ import { X } from "lucide-react";
 import { Message } from "@/models/User.model";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
 export default function MessageCard({message , onMessageDelete}: MessageCardProp) {
     const { toast } = useToast()
 
@@ -57,13 +58,19 @@ export default function MessageCard({message , onMessageDelete}: MessageCardProp
 
     };
 
+    const {data: session} = useSession();
+    const username = session?.user.username;
+    const email = session?.user.email;
+
   return (
-    <Card>
+    <Card className="bg-gray-300">
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
+      
         <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="outline"><X className="w-5 h-5"/></Button>
+          <AlertDialogTrigger asChild >
+            <div className="flex justify-end items-center">
+            <Button variant="outline" className="w-[65px] "><X className="w-5 h-5"/></Button>
+            </div>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -79,13 +86,13 @@ export default function MessageCard({message , onMessageDelete}: MessageCardProp
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <CardDescription>Card Description</CardDescription>
+        <CardTitle className="uppercase text-2xl"><span className="text-purple-600 font-thin ">True</span> <span className="text-purple-600 font-light ">Messages</span> For <span className="text-purple-600 font-thin ">You</span></CardTitle>
       </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
+      <CardContent className="flex items-center justify-start font-nedium text-xl">
+        <p>{message.content}</p>
       </CardContent>
       <CardFooter>
-        <p>Card Footer</p>
+        <p className="text-sm text-purple-500">{email}</p>
       </CardFooter>
     </Card>
   );

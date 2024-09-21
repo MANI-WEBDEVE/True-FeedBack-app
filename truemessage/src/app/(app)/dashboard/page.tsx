@@ -16,6 +16,13 @@ import { useSession } from 'next-auth/react';
 // import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { unknown } from 'zod';
+
+
+type MessageObj = {
+  content: string;
+  timestamp: Date;
+};
 
 function Page() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -34,25 +41,28 @@ function Page() {
   });
 
   const { register, watch, setValue } = form;
-  const acceptMessages = watch('acceptMessages');
+  const acceptingMessages = watch('acceptingMessages');
 
   // Fetch the message acceptance setting
-  const fetchAcceptMessage = useCallback(async () => {
-    setIsSwitch(true);
-    try {
-      const response = await axios.get<ApiResponse>('/api/accept-messages');
-      setValue('acceptMessages', response.data.isAcceptingMessages);
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      toast({
-        title: 'Error',
-        description: axiosError.response?.data.message || 'Failed to fetch message settings',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsSwitch(false);
-    }
-  }, []);
+  // Fetch the message acceptance setting
+const fetchAcceptMessage = useCallback(async () => {
+  setIsSwitch(true);
+  try {
+    const response = await axios.get<ApiResponse>('/api/accept-messages');
+    setValue('acceptingMessages', response.data.isAcceptingMessages); // Corrected the field name here
+    console.log(response.data.isAcceptingMessages); // Corrected the field name here
+  } catch (error) {
+    const axiosError = error as AxiosError<ApiResponse>;
+    toast({
+      title: 'Error',
+      description: axiosError.response?.data.message || 'Failed to fetch message settings',
+      variant: 'destructive',
+    });
+  } finally {
+    setIsSwitch(false);
+  }
+}, [setValue, toast]);
+
   //setValue, toast
 
   // Fetch all messages
@@ -61,8 +71,11 @@ function Page() {
       setIsLoading(true);
       try {
         const response = await axios.get<ApiResponse>('/api/get-messages');
-        console.log(response.data)
-        setMessages(response.data.messages || []);
+        const messageData = Array.isArray(response.data.message) 
+        ? response.data.message 
+        : [];
+
+      setMessages(messageData);
         if (refresh) {
           toast({
             title: 'Messages Refreshed',
@@ -86,9 +99,10 @@ function Page() {
   const handleSwitchChange = async () => {
     try {
       const response = await axios.post('/api/accept-messages', {
-        acceptMessages: !acceptMessages,
+        acceptingMessages: !acceptingMessages,
       });
-      setValue('acceptMessages', !acceptMessages);
+      console.log(response.data);
+      setValue('acceptingMessages', !acceptingMessages);
       toast({
         title: response.data.message,
         variant: 'default',
@@ -137,7 +151,7 @@ function Page() {
       fetchAcceptMessage();
       fetchMessages();
     }
-  }, []);
+  }, [status, fetchAcceptMessage, fetchMessages]);
   // status, fetchAcceptMessage, fetchMessages
   // Loading state while session is being fetched
   if (status === 'loading') {
@@ -182,12 +196,12 @@ function Page() {
       {/* Accept Messages Switch */}
       <div className="mb-6">
         <Switch
-          {...register('acceptMessages')}
-          checked={acceptMessages}
+          {...register('acceptingMessages')}
+          checked={acceptingMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitch}
         />
-        <span className="ml-2">Accept Messages: {acceptMessages ? 'ON' : 'OFF'}</span>
+        <span className="ml-2">Accept Messages: {acceptingMessages ? 'ON' : 'OFF'}</span>
       </div>
 
       <Separator />
@@ -221,7 +235,7 @@ export default Page;
  import { Switch } from '@/components/ui/switch';
  import { useToast } from '@/hooks/use-toast';
  import { Message } from '@/models/User.model'
- import { AcceptMessageSchema } from '@/Schemas/acceptMessageSchema';
+ import { acceptingMessageschema } from '@/Schemas/acceptingMessageschema';
  import { ApiResponse } from '@/types/ApiResponse';
  import { zodResolver } from '@hookform/resolvers/zod';
  import axios, { AxiosError } from 'axios';
@@ -248,17 +262,17 @@ export default Page;
  const {data: session} = useSession();
 
  const form = useForm({
-   resolver: zodResolver(AcceptMessageSchema),
+   resolver: zodResolver(acceptingMessageschema),
  })
 
  const { register, watch, setValue } = form;
- const acceptMessages = watch('acceptMessages');
+ const acceptingMessages = watch('acceptingMessages');
 
  const fetchAcceptMessage = useCallback(async ( ) => {
      setIsSwitch(true);
      try {
-       const response = await axios.get<ApiResponse>('/api/acceptMessages');
-       setValue("acceptMessages", response.data.isAcceptingMessages)
+       const response = await axios.get<ApiResponse>('/api/acceptingMessages');
+       setValue("acceptingMessages", response.data.isAcceptingMessages)
      } catch (error) {
        const axiosError = error as AxiosError<ApiResponse>
        toast({
@@ -306,9 +320,9 @@ export default Page;
  const handleSwitchChange = async ()=> {
    try {
      const response = await axios.post("/api/accept-messages", {
-       acceptMessages : !acceptMessages,
+       acceptingMessages : !acceptingMessages,
      })
-     setValue('acceptMessages', !acceptMessages )
+     setValue('acceptingMessages', !acceptingMessages )
      toast({
        title: response.data.message,
        variant: "destructive"
@@ -357,13 +371,13 @@ export default Page;
 
      <div className='mb-4'>
        <Switch 
-       {...register("acceptMessages")}
-       checked={acceptMessages}
+       {...register("acceptingMessages")}
+       checked={acceptingMessages}
        onCheckedChange={handleSwitchChange}
        disabled={isSwitch}
        />
        <span className='ml-2'>
-         Accept Messages: {acceptMessages ? "ON" : "OFF"}
+         Accept Messages: {acceptingMessages ? "ON" : "OFF"}
        </span>
      </div>
      <Separator/>

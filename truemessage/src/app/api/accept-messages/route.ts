@@ -30,7 +30,8 @@ export async function POST(request: Request):Promise<User> {
 
   const userId = user._id;
   const { acceptingMessages } = await request.json();
-
+  console.log(acceptingMessages);
+  
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(userId, {
       isAcceptingMessage: acceptingMessages,
@@ -59,14 +60,14 @@ export async function GET(request:Request):Promise<User> {
   await dbConnect();
   const session = await getServerSession(authOption);
   const user: User = session?.user as User;
-
+  console.log(user)
   if (!session || !session.user) {
     return Response.json(
       { success: false, message: "Unauthorized" },
       { status: 401 }
     );
   }
-
+  
   const userId = user._id;
 
   try {
@@ -80,8 +81,8 @@ export async function GET(request:Request):Promise<User> {
 
     return Response.json(
      
-      { success: true, message: "user enbale accpting messages option", isAcceptingMessages: foundUser.isAcceptingMessage  },
-      { status: 404 }
+      { success: true, message: "user enbale accpting messages option", isAcceptingMessage: foundUser.isAcceptingMessage  },
+      { status: 200 }
     );
   } catch (error) {
     return Response.json(

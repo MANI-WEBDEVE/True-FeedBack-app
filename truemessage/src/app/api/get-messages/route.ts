@@ -9,7 +9,6 @@ export async function GET(request: Request) {
   await dbConnect();
   const session = await getServerSession(authOption);
   const user: User = session?.user as User;
-  console.log(user)
 
   if (!session || !session.user) {
     return Response.json(
@@ -19,10 +18,8 @@ export async function GET(request: Request) {
   }
 
   const userId = new mongoose.Types.ObjectId(user._id);
-  console.log(userId)
   try {
     const foundUser = await UserModel.findById(userId);
-    console.log(foundUser)
     if (!foundUser) {
       return Response.json(
         { success: false, message: "User not found" },
@@ -31,27 +28,27 @@ export async function GET(request: Request) {
     }
     const user = await UserModel.aggregate([
       { $match: { _id: userId } },
-      { $unwind: '$messages' },
-      { $sort: { 'messages.createdAt': -1 } },
-      { $group: { _id: '$_id', messages: { $push: '$messages' } } },
+      { $unwind: '$message' },
+      { $sort: { 'message.createdAt': -1 } },
+      { $group: { _id: '$_id', message: { $push: '$message' } } },
     ]).exec();
 
-    console.log("Muhammad",user)
     if (!user || user.length === 0) {
       return Response.json(
-        { success: false, message: "User Not found 🥴" },
+        { success: false, message: "User Not found " },
         { status: 404 }
       );
     }
     return Response.json(
-      { success: true, messages: user[0].messages },
+      { success: true, message: user[0].message },
       { status: 200 }
     );
   } catch (error) {
-    console.log(`SomeThing Went Wrong ${error}`);
     return Response.json(
       { success: false, message: "Something Went Wrong User UnAUthorized" },
       { status: 500 }
     );
   }
 }
+
+
