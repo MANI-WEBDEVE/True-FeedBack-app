@@ -19,6 +19,7 @@ import { Loader2 } from "lucide-react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { SignInSchema } from "@/Schemas/signInSchema";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 const SignIn = () => {
   const { toast } = useToast();
@@ -49,12 +50,24 @@ const SignIn = () => {
           title: 'Login Failed',
           description: 'Incorrect username or password',
           variant: 'destructive',
+          style: {
+            color: "black",
+            backgroundColor: "white",
+            border: "1px solid black",
+
+          }
         });
       } else {
         toast({
           title: 'Error',
           description: result.error,
           variant: 'destructive',
+          style: {
+            color: "black",
+            backgroundColor: "white",
+            border: "1px solid black",
+
+          }
         });
       }
     }
@@ -142,6 +155,9 @@ const SignIn = () => {
               )}
             </Button>
           </form>
+          <div>
+            <p className="text-blue-500 text-xs font-light text-end"><Link href="/sign-up">SignUp Now</Link></p>
+          </div>
         </Form>
       </div>
     </div>

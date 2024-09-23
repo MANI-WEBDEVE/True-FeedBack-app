@@ -81,6 +81,12 @@ const Signup = () => {
       toast({
         title: "Success",
         description: response.data.message,
+        style: {
+          color: "black",
+          backgroundColor: "white",
+          border: "1px solid black",
+
+        }
       });
       router.replace(`/verify/${data.username}`);
     } catch (error) {
@@ -90,6 +96,12 @@ const Signup = () => {
         variant: "destructive",
         title: "Sign Up Failed",
         description: errorMessage,
+        style: {
+          color: "black",
+          backgroundColor: "white",
+          border: "1px solid black",
+
+        }
       });
     } finally {
       setIsSubmitting(false);

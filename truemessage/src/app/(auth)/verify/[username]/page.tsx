@@ -39,7 +39,13 @@ const verifyAcount = () => {
             })
             toast({
                 title: "Success",
-                description: response.data.message
+                description: response.data.message,
+                style: {
+                  color: "black",
+                  backgroundColor: "white",
+                  border: "1px solid black",
+      
+                }
             })
             router.replace('/sign-in')
         } catch (error) {
@@ -48,7 +54,13 @@ const verifyAcount = () => {
             toast({
                 title: "verification Failed",
                 description: errorMessage.response?.data.message,
-                variant:"destructive"
+                variant:"destructive",
+                style: {
+                  color: "black",
+                  backgroundColor: "white",
+                  border: "1px solid black",
+      
+                }
             })
         }
     }

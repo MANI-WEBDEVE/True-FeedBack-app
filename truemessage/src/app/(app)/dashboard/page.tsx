@@ -57,6 +57,12 @@ const fetchAcceptMessage = useCallback(async () => {
       title: 'Error',
       description: axiosError.response?.data.message || 'Failed to fetch message settings',
       variant: 'destructive',
+      style: {
+        color: "black",
+        backgroundColor: "white",
+        border: "1px solid black",
+
+      }
     });
   } finally {
     setIsSwitch(false);
@@ -80,6 +86,12 @@ const fetchAcceptMessage = useCallback(async () => {
           toast({
             title: 'Messages Refreshed',
             description: 'Showing latest messages...',
+            style: {
+              color: "black",
+              backgroundColor: "white",
+              border: "1px solid black",
+  
+            }
           });
         }
       } catch (error) {
@@ -87,6 +99,12 @@ const fetchAcceptMessage = useCallback(async () => {
         toast({
           title: 'Error',
           description: axiosError.response?.data.message || 'Failed to fetch messages',
+          style: {
+            color: "black",
+            backgroundColor: "white",
+            border: "1px solid black",
+
+          }
         });
       } finally {
         setIsLoading(false);
@@ -106,6 +124,12 @@ const fetchAcceptMessage = useCallback(async () => {
       toast({
         title: response.data.message,
         variant: 'default',
+        style: {
+          color: "black",
+          backgroundColor: "white",
+          border: "1px solid black",
+
+        }
       });
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
@@ -113,6 +137,12 @@ const fetchAcceptMessage = useCallback(async () => {
         title: 'Error',
         description: axiosError.response?.data.message || 'Something went wrong',
         variant: 'destructive',
+        style: {
+          color: "black",
+          backgroundColor: "white",
+          border: "1px solid black",
+
+        }
       });
     }
   };
@@ -124,12 +154,24 @@ const fetchAcceptMessage = useCallback(async () => {
       toast({
         title: 'Message deleted',
         description: 'The message has been successfully deleted.',
+        style: {
+          color: "black",
+          backgroundColor: "white",
+          border: "1px solid black",
+
+        }
       });
     } catch (error) {
       toast({
         title: 'Error',
         description: 'Something went wrong while deleting the message.',
         variant: 'destructive',
+        style: {
+          color: "black",
+          backgroundColor: "white",
+          border: "1px solid black",
+
+        }
       });
     }
   };
@@ -143,6 +185,12 @@ const fetchAcceptMessage = useCallback(async () => {
     toast({
       title: 'URL copied',
       description: 'Profile URL has been copied',
+      style: {
+        color: "black",
+        backgroundColor: "white",
+        border: "1px solid black",
+
+      }
     });
   };
 
@@ -155,13 +203,18 @@ const fetchAcceptMessage = useCallback(async () => {
   // status, fetchAcceptMessage, fetchMessages
   // Loading state while session is being fetched
   if (status === 'loading') {
-    return <div>Loading...</div>;
+   return  <div className="h-[100vh]  flex items-center justify-center font-bold text-purple-500">
+        <div className="h-full w-full flex items-center justify-center flex-col gap-3 ">
+          <div className="animate-spin rounded-full h-5 w-5 border-b-4 p-12 border-purple-500"></div>
+          <p className="text-xl font-thin text-purple-500">Loading</p>
+        </div>
+      </div>
   }
 
   // User not authenticated
   if (!session || !session.user) {
     return (
-      <div className="h-full text-5xl flex items-center justify-center font-bold text-purple-500">
+      <div className="h-[100vh] text-5xl flex items-center justify-center font-bold text-purple-500">
         Please Login First
       </div>
     );
@@ -214,8 +267,8 @@ const fetchAcceptMessage = useCallback(async () => {
       {/* Messages Display */}
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
-            <MessageCard key={index} message={message} onMessageDelete={handleDeleteMessage} />
+          messages.map((message:any, index) => (
+            <MessageCard key={message.id} message={message} onMessageDelete={handleDeleteMessage} />
           ))
         ) : (
           <p>No messages to display</p>

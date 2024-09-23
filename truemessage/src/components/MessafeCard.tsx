@@ -1,3 +1,4 @@
+"use client"
 import {
   Card,
   CardContent,
@@ -22,16 +23,17 @@ import {
 
 interface MessageCardProp {
     message : Message;
-    onMessageDelete : (message: string) => void
+    onMessageDelete : (messageId: string) => void
 }
 
 
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { Message } from "@/models/User.model";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { useSession } from "next-auth/react";
+import { ApiResponse } from "@/types/ApiResponse";
 export default function MessageCard({message , onMessageDelete}: MessageCardProp) {
     const { toast } = useToast()
 
@@ -41,20 +43,39 @@ export default function MessageCard({message , onMessageDelete}: MessageCardProp
      * @returns {Promise<void>}
      */
     const handleMessageDelete = async (): Promise<void> => {
-        /**
-         * Delete the message by sending a DELETE request to the server
-         */
-        const response = await axios.delete(`/api/delete-message/${message.id}`);
-        /**
-         * Toast the message to the user
-         */
-        toast({
-            title: response.data.message,
-        });
-        /**
-         * Call the callback function to delete the message from the parent component
-         */
-        onMessageDelete(message.id);
+       try {
+        
+         const response = await axios.delete(`/api/delete-messages/${message._id}
+         `);
+         console.log(response.data)
+      
+         toast({
+             title: response.data.message,
+             variant: "destructive",
+             style: {
+              color: "black",
+              backgroundColor: "white",
+              border: "1px solid black",
+  
+            }
+         });
+       } catch (error) {
+         const axiosError = error as AxiosError<ApiResponse>;
+         toast({
+             title: "Error",
+             description: axiosError.response?.data.message || "Something went wrong",
+             variant: "destructive",
+             style: {
+              color: "black",
+              backgroundColor: "white",
+              border: "1px solid black",
+  
+            }
+         });
+       }
+       
+     
+        onMessageDelete(message._id as string) ;
 
     };
 
