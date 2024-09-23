@@ -140,6 +140,7 @@ const ProfilePage = () => {
   };
 
   const handleInputSugguested = (index: number) => {
+    console.log( setSuggestedInput(suggestedMessages[index]))
     setSuggestedInput(suggestedMessages[index]);
   };
 
@@ -232,11 +233,11 @@ export default ProfilePage;
 export const Footer = () => {
   return (
     <>
-      <footer className="bg-purple-500 text-white p-4 flex items-center justify-center gap-4 w-full flex-col">
+      <footer className="bg-purple-500 text-white p-4 flex items-center justify-center gap-4 w-full flex-col ">
         <div className="flex items-center justify-center">
           <p>True Message 2023. All rights reserved.</p>
           <a
-            href="https://github.com/muhammederdem/true-message"
+            href="https://github.com/MANI-WEBDEVE"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline"

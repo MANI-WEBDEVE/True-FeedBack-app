@@ -2,7 +2,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -90,20 +89,20 @@ export default function MessageCard({message , onMessageDelete}: MessageCardProp
         <AlertDialog>
           <AlertDialogTrigger asChild >
             <div className="flex justify-end items-center">
-            <Button variant="outline" className="w-[65px] "><X className="w-5 h-5"/></Button>
+            <Button variant="outline" className="w-[65px] bg-red-300 hover:bg-red-500"><X className="w-5 h-5"/></Button>
             </div>
           </AlertDialogTrigger>
-          <AlertDialogContent>
+          <AlertDialogContent className="text-white bg-black">
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle className="text-purple-500">Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
                 This action cannot be undone. This will permanently delete your
                 account and remove your data from our servers.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={() => handleMessageDelete()} >Continue</AlertDialogAction>
+              <AlertDialogCancel className="text-black">Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={() => handleMessageDelete()} className="bg-purple-500">Continue</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
