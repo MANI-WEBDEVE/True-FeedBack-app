@@ -1,7 +1,6 @@
 ## Introduction to TRUE-FEEDBACK Application
-Welcome to our innovative application designed to empower every user by providing a platform for valuable feedback and suggestions. Whether you're a long-time user or just starting your insights and ideas are crucial to our continuous improvement. This application is dedicated to creating a collaborative environment where every voice matters, ensuring that we meet and exceed your expectations. Join us in shaping the future of our services, as your feedback directly influences the development and enhancement of features that matter most to you.
+Welcome to our innovative application designed to empower every user by providing a platform for valuable feedback and suggestions. Whether you're a long-time user or just getting started, your insights and ideas are crucial to our continuous improvement. This application is dedicated to creating a collaborative environment where every voice matters, ensuring that we not only meet but exceed your expectations. Join us in shaping the future of our services, as your feedback directly influences the development and enhancement of features that matter most to you.
 
-<<<<<<< HEAD
 
 
 ![Demo picture](./truemessage/public/demo.jpg)
@@ -11,9 +10,6 @@ Welcome to our innovative application designed to empower every user by providin
 
 
 ## Clone Repositry
-=======
-## Clone Repository
->>>>>>> a62356efa193d8a41d3d7209d9ccda129225f7bb
 ```bash
 git clone https://github.com/MANI-WEBDEVE/True-FeedBack-app.git
 ```
@@ -44,4 +40,4 @@ nm run dev
 [React-email Components](#)
 
 ## Contributing
-Contributions are welcome, so you can make a pull request with your enhancements.
+Contributions are welcome Please fork this repository and create a pull request with your enhancements.
